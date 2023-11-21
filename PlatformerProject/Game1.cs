@@ -8,6 +8,9 @@ namespace PlatformerProject
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Texture2D _texture;
+        private Rectangle _deelRectangle;
+        private int schuifOp_X = 0;
 
         public Game1()
         {
@@ -19,7 +22,7 @@ namespace PlatformerProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            _deelRectangle = new Rectangle(schuifOp_X, 32, 32, 32);
             base.Initialize();
         }
 
@@ -28,6 +31,7 @@ namespace PlatformerProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            _texture = Content.Load<Texture2D>("Kobold Priest Sprite Sheet");
         }
 
         protected override void Update(GameTime gameTime)
@@ -43,8 +47,16 @@ namespace PlatformerProject
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(_texture, new Vector2(0, 0), _deelRectangle, Color.White);
+            _spriteBatch.End();
 
-            // TODO: Add your drawing code here
+            schuifOp_X += 32;
+            if (schuifOp_X > 224)
+            {
+                schuifOp_X = 0;
+            }
+            _deelRectangle.X = schuifOp_X;
 
             base.Draw(gameTime);
         }
