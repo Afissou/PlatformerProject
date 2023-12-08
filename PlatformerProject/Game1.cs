@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace PlatformerProject
 {
@@ -8,9 +9,9 @@ namespace PlatformerProject
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D _texture;
-        private Rectangle _deelRectangle;
-        private int schuifOp_X = 0;
+        private Texture2D texture;
+        Hero hero;
+        
 
         public Game1()
         {
@@ -21,17 +22,23 @@ namespace PlatformerProject
 
         protected override void Initialize()
         {
+            
             // TODO: Add your initialization logic here
-            _deelRectangle = new Rectangle(schuifOp_X, 32, 32, 32);
             base.Initialize();
+        }
+
+        private void initializeGameObjects()
+        {
+            hero = new Hero(texture);
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            
             // TODO: use this.Content to load your game content here
-            _texture = Content.Load<Texture2D>("Kobold Priest Sprite Sheet");
+            texture = Content.Load<Texture2D>("Kobold Priest Sprite Sheet");
+            initializeGameObjects();
         }
 
         protected override void Update(GameTime gameTime)
@@ -40,7 +47,7 @@ namespace PlatformerProject
                 Exit();
 
             // TODO: Add your update logic here
-
+            hero.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -48,15 +55,10 @@ namespace PlatformerProject
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_texture, new Vector2(0, 0), _deelRectangle, Color.White);
+            hero.Draw(_spriteBatch);
             _spriteBatch.End();
 
-            schuifOp_X += 32;
-            if (schuifOp_X > 224)
-            {
-                schuifOp_X = 0;
-            }
-            _deelRectangle.X = schuifOp_X;
+           
 
             base.Draw(gameTime);
         }
